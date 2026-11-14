@@ -1,0 +1,828 @@
+/* Literata (SIL Open Font License, fonts/OFL.txt): bundled so the type is the same on
+   every phone and works offline. Only regular and italic, Latin and Latin Extended. */
+@font-face { font-family: "Literata"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url(fonts/literata-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Literata"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url(fonts/literata-latin-ext-400-normal.woff2) format("woff2"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "Literata"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url(fonts/literata-latin-400-italic.woff2) format("woff2"); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Literata"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url(fonts/literata-latin-ext-400-italic.woff2) format("woff2"); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+:root {
+  /* Brand colours: see brand/colors.json and brand/index.html */
+  --bg: #FBFAF7;      /* paper */
+  --fg: #262626;      /* ink, 14.5:1 */
+  --muted: #6B6862;   /* 5.3:1 on paper (WCAG AA) */
+  --faint: #E3DFD7;   /* stone */
+  --accent: #4E7378;  /* teal, 5:1 on paper */
+  --logo-accent: #4E7378;
+  --serif: "Literata", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #262626;
+    --fg: #E3DFD7;
+    --muted: #A09B92;   /* 5.5:1 */
+    --faint: #3D3B38;
+    --accent: #8FB2B6;  /* teal lifted for text on dark, 6.6:1 */
+    --logo-accent: #4E7378;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #262626;
+  --fg: #E3DFD7;
+  --muted: #A09B92;
+  --faint: #3D3B38;
+  --accent: #8FB2B6;
+  --logo-accent: #4E7378;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+/* Read by screen readers, never shown */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+html, body { margin: 0; }
+/* No coloured flash on tap (Android paints the whole tapped area, e.g. a full-screen overlay) */
+* { -webkit-tap-highlight-color: transparent; }
+/* Follow the iPhone/iPad text-size setting (Dynamic Type). -webkit-touch-callout limits
+   this to iOS: on Mac Safari the system body size is smaller and would shrink the app. */
+@supports (font: -apple-system-body) and (-webkit-touch-callout: none) {
+  html { font: -apple-system-body; }
+}
+
+/* Small text links get a larger invisible tap area (about 44pt tall) without changing the look. */
+button.link, .nav a, .fine a, .term-wiki, .term-close { position: relative; }
+button.link::after, .nav a::after, .fine a::after, .term-wiki::after, .term-close::after {
+  content: ""; position: absolute; inset: -12px -4px;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 300 1rem/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  transition: background .6s ease, color .6s ease;
+}
+
+#app {
+  max-width: 34rem;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(10vh, 3rem, calc(env(safe-area-inset-top) + 2rem)) 1.5rem 8.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.view { flex: 1; animation: fade .8s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+h1 { font: 400 1.6rem/1.3 var(--serif); margin: 0 0 .25rem; overflow-wrap: break-word; }  /* a word wider than the screen (the phone's largest font size) breaks */
+h2 { font: 400 .75rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 2.5rem 0 .75rem; }
+.muted { color: var(--muted); margin-top: 0; }
+.fine { margin-top: 3rem; font-size: .8rem; }
+.fine a, #view-terms a { color: var(--muted); }
+#view-terms p { font-size: .95rem; }
+
+.date { color: var(--muted); font-size: .85rem; letter-spacing: .01em; text-align: center; margin: 0; }
+.date .moon { text-transform: capitalize; }
+
+.moon { white-space: nowrap; }
+.term-def { white-space: pre-line; }
+.moon svg { width: 1.05em; height: 1.05em; vertical-align: -.2em; margin-right: .4em; }
+.moon circle { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+.moon path { fill: var(--muted); }
+
+.passage { margin: 0; text-align: center; overflow-wrap: break-word; }  /* a word breaks only if it alone is wider than the phone (largest text) */
+.passage p {
+  font: 400 clamp(1.32rem, 4.7vw, 1.75rem)/1.45 var(--serif);  /* Literata runs large */
+  margin: 0;
+  text-wrap: balance;
+}
+/* Longer passages read better left-aligned, a touch smaller, with more air. */
+.passage.long { text-align: left; }
+.passage.long p { font-size: clamp(1.13rem, 4.15vw, 1.42rem); line-height: 1.55; text-wrap: pretty; }
+.passage.very-long p { font-size: clamp(1.04rem, 3.8vw, 1.23rem); line-height: 1.6; }
+.journal .j-text { white-space: pre-line; }  /* verse keeps its line breaks */
+.passage.verse p { font-size: clamp(1.05rem, 3.9vw, 1.25rem); line-height: 1.5; }
+.verse-line { display: block; padding-left: 1.4em; text-indent: -1.4em; }
+.school { text-align: center; color: var(--accent); font: 600 .82rem/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; margin: 0 0 1.6rem;
+  overflow-wrap: anywhere; }  /* "ENLIGHTENMENT" alone is wider than a phone at the largest text sizes */
+.source { text-align: center; color: var(--muted); font-size: .9rem; margin: 2rem 0 1rem; }
+.full-verse { text-align: center; margin: 0 0 .5rem; font-size: .75rem; }
+.full-verse a { color: var(--muted); }
+.tradition { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+
+.context { max-width: 28rem; margin: .5rem auto 0; color: var(--muted); font-size: .92rem; text-align: center; }
+.context p { margin: .5rem 0; }
+#day-context-text { white-space: pre-line; text-align: left; }  /* the long About has paragraphs */
+.translation { font-size: .8rem; font-style: italic; }
+.translation a { color: inherit; }
+
+.question { margin: 0 auto; text-align: center; }
+.question-label { color: var(--muted); font: 400 .8rem/1.4 var(--sans); letter-spacing: .01em; margin: 0 0 .5rem; }
+.prompt {
+  font: italic 400 1.1rem/1.5 var(--serif);
+  text-align: center;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+.actions, .choice { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: .25rem .6rem; margin-top: 1.75rem; }
+.source .share-link { display: inline; margin: 0; font-size: inherit; }
+.choice { justify-content: flex-start; margin-top: 0; }
+.dot { color: color-mix(in srgb, var(--muted) 55%, var(--bg)); }
+
+button.link, .nav a {
+  background: none; border: 0; padding: .35rem 0; margin: 0;
+  font: inherit; font-size: .9rem; color: var(--fg);
+  cursor: pointer; text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .3s, border-color .3s;
+}
+/* Hover underlines only where there is a real pointer: on phones a tapped button stays
+   "hovered" and its grey line used to cover the white one of the chosen option. */
+@media (hover: hover) { button.link:hover, .nav a:hover { border-bottom-color: var(--faint); } }
+button.link:focus-visible, .nav a:focus-visible, textarea:focus-visible { outline: 1px solid var(--muted); outline-offset: 4px; }
+button.quiet { color: var(--muted); font-size: .8rem; display: block; margin: 0 auto; }
+button[aria-checked="true"], button[aria-checked="true"]:hover { border-bottom-color: var(--fg); }
+
+.note { margin-top: 2rem; }
+/* While writing, "write about this" reads as selected and the other actions step back. */
+.actions.writing button.link { color: var(--muted); }
+.actions.writing #open-note { color: var(--fg); border-bottom-color: var(--fg); }
+.note-preview { margin: 1.8rem auto 0; text-align: center; color: var(--muted); font-size: .85rem; }
+.note-preview-text { display: block; font: italic 400 1rem/1.5 var(--serif); color: var(--fg); margin-bottom: .2rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 26rem; margin-inline: auto; }
+.note-preview-text::before { content: "✎ "; color: var(--muted); }
+.note-preview button.quiet { display: inline; }
+.count { color: var(--muted); font: italic 400 .95rem/1.5 var(--serif); margin: -.25rem 0 0; }
+textarea {
+  width: 100%;
+  background: transparent;
+  color: var(--fg);
+  border: 0;
+  border-top: 1px solid var(--faint);
+  border-bottom: 1px solid var(--faint);
+  padding: 1rem 0;
+  font: 400 1.05rem/1.6 var(--serif);
+  resize: vertical;
+}
+textarea:focus { outline: none; }
+/* The note box grows with the text (app.js growNote): no inner scrolling, no resize corner */
+#note-text { resize: none; overflow: hidden; min-height: 8.5em; }
+/* A hidden copy of the note box, to measure its text without resizing the real one */
+.note-mirror { position: absolute; left: -9999px; top: 0; visibility: hidden; height: 0 !important; min-height: 0 !important; overflow: hidden; pointer-events: none; }
+textarea::placeholder { color: var(--muted); font: 300 .85rem/1.55 var(--sans); }
+.note-foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: .35rem; }
+.note-foot button.quiet { margin: 0; }
+.note-status { color: var(--muted); font-size: .75rem; text-align: right; margin: 0 0 0 auto; min-height: 1.2em; }
+.teaser { color: var(--muted); font: italic 400 .95rem/1.5 var(--serif); text-align: center; margin: 1.1rem auto 0; max-width: 22rem; }
+
+.back { margin-top: 3rem; }
+
+.journal { list-style: none; padding: 0; margin: 2rem 0 0; }
+.journal li { border-top: 1px solid var(--faint); }
+.journal li:last-child { border-bottom: 1px solid var(--faint); }
+.journal a { display: block; padding: 1rem 0; color: inherit; text-decoration: none; }
+.journal .j-date { font-size: .8rem; letter-spacing: .01em; color: var(--muted); }
+.journal .j-text { font: 400 1.02rem/1.45 var(--serif); margin: .25rem 0; }
+.journal .j-note { font-size: .85rem; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.journal .j-note::before { content: "✎ "; }
+
+.nav {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem .85rem;  /* two lines with the phone's largest font size */
+  padding: .9rem 1rem max(1rem, env(safe-area-inset-bottom));
+  background: var(--bg);
+}
+/* A short fade above the bar, so text scrolling under it never collides with the links */
+.nav::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 1.75rem;
+  background: linear-gradient(transparent, var(--bg)); pointer-events: none; transition: height .8s ease; }
+/* With the chevron showing, the fade grows so half-visible text sinks behind it */
+.nav.has-hint::before { height: 4.5rem; background: linear-gradient(transparent, var(--bg) 70%); }
+.nav a { color: var(--muted); font-size: .8rem; letter-spacing: .08em; white-space: nowrap; }
+/* Small screens with larger text: "past thoughts" never breaks onto two lines */
+@media (max-width: 380px) {
+  .nav { column-gap: .55rem; padding-left: .5rem; padding-right: .5rem; }
+  .nav a { letter-spacing: .03em; }
+}
+.nav a[aria-current="page"] { color: var(--fg); }
+
+/* Glossary terms: a faint dotted underline, tap for a short explanation */
+.term {
+  font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit;
+  background: none; border: 0; padding: 0; margin: 0; cursor: pointer;
+  text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--muted) 70%, transparent);
+  text-underline-offset: .22em;
+}
+.term:focus-visible { outline: 1px solid var(--muted); outline-offset: 2px; }
+.term-card {
+  position: absolute; z-index: 30;  /* scrolls with the page */
+  width: min(20rem, calc(100vw - 2rem));
+  padding: 1rem 1.15rem .9rem;
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--faint); border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .12);
+  animation: fade .25s ease;
+}
+.term-card[hidden] { display: none; }
+.term-title { font: 400 1.05rem/1.3 var(--serif); margin: 0 0 .35rem; }
+.term-def { font-size: .9rem; line-height: 1.55; margin: 0 0 .6rem; }
+.term-card:focus { outline: none; }
+/* A Library page's card: its type and header line around the title */
+.term-kind { color: var(--accent); font: 600 .62rem/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; margin: 0 0 .25rem; }
+.term-sub { color: var(--muted); font-size: .8rem; line-height: 1.45; margin: -.15rem 0 .45rem; }
+
+.term-more { margin: 0 0 .75rem; font-size: .85rem; line-height: 1.45; }
+.term-more dt { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: .55rem; }
+.term-more dd { margin: .1rem 0 0; }
+.term-more a { color: var(--fg); }
+.term-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.term-wiki { font-size: .75rem; color: var(--muted); }
+.term-close { margin-left: auto; background: none; border: 0; padding: 0; font: inherit; font-size: .75rem; color: var(--muted); cursor: pointer; }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: 4.5rem; z-index: 20;
+  transform: translate(-50%, .5rem);
+  max-width: calc(100% - 2rem);
+  padding: .7rem 1.1rem;
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--faint); border-radius: 999px;
+  font-size: .85rem; text-align: center;
+  opacity: 0; transition: opacity .4s ease, transform .4s ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Once, in a phone browser: keeping the app on the home screen */
+.home-note {
+  position: fixed; left: 50%; bottom: 4.75rem; z-index: 25;
+  width: min(22rem, calc(100% - 2rem)); transform: translate(-50%, .6rem);
+  padding: 1rem 1.15rem .8rem;
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--faint); border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .12);
+  opacity: 0; transition: opacity .6s ease, transform .6s ease;
+}
+.home-note.show { opacity: 1; transform: translate(-50%, 0); }
+.home-note-title { font: 400 1.02rem/1.35 var(--serif); margin: 0 0 .4rem; }
+.home-note-text { font-size: .88rem; line-height: 1.55; color: var(--muted); margin: 0 0 .5rem; }
+.home-note-text b { font-weight: 500; color: var(--fg); }
+.home-note-actions { display: flex; justify-content: flex-end; align-items: center; gap: .6rem; }
+.home-note .share-icon { display: inline-block; width: 1em; height: 1em; vertical-align: -.15em; }
+.home-note .share-icon path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Greeting, name */
+.greeting { color: var(--muted); font: italic 400 1rem/1.4 var(--serif); text-align: center; margin: 0 0 .6rem; }
+.name-input {
+  width: 100%; max-width: 20rem;
+  background: transparent; color: var(--fg);
+  border: 0; border-bottom: 1px solid var(--faint);
+  padding: .4rem 0; font: 400 1.05rem/1.4 var(--serif);
+}
+.name-input:focus { outline: none; border-bottom-color: var(--muted); }
+.name-input::placeholder { color: var(--muted); font: 300 .9rem/1.4 var(--sans); }
+.fine { display: flex; flex-wrap: wrap; gap: .25rem .6rem; align-items: center; }
+.fine a { cursor: pointer; }
+.welcome .name-input { text-align: center; margin-bottom: .75rem; }
+.welcome p:first-child { margin-bottom: 2rem; }
+.welcome-hint { color: var(--muted); font: 300 .8rem/1.5 var(--sans) !important; margin: 0 0 2.5rem !important; }
+
+/* Closing moment */
+.closing {
+  position: fixed; inset: 0; z-index: 10;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 1.5rem; text-align: center;
+  animation: fade 2s ease;
+}
+/* The goodbye arrives slowly, and leaves softly when tapped. */
+#closing { animation: fade 1.6s ease .2s both; }
+#closing.leaving { animation: fadeout 1.2s ease both; pointer-events: none; }
+@keyframes fadeout { from { opacity: 1; } to { opacity: 0; } }
+.closing-backup { margin: 1.5rem 0 0 !important; }
+.closing-backup button.quiet { display: inline; }
+.closing[hidden] { display: none; }
+.closing p { font: italic 400 1.3rem/1.6 var(--serif); margin: 0 0 3rem; }
+.closing-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .25rem .6rem; }
+.closing-actions button.quiet { display: inline; margin: 0; }
+.closing { cursor: pointer; }
+.closing-hint { position: absolute; bottom: max(2rem, env(safe-area-inset-bottom)); left: 0; right: 0;
+  margin: 0; font: 400 .75rem/1 var(--sans) !important; letter-spacing: .08em; color: var(--muted); }
+
+/* Silence */
+.silence {
+  position: fixed; inset: 0; z-index: 10;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  animation: fade 1.2s ease;
+}
+.silence[hidden] { display: none; }
+/* Fixed slots: the stage (intro, question or breathing), the time, then the foot. */
+.sit-stage { display: grid; place-items: center; width: min(22rem, calc(100% - 3rem)); height: 15rem; }
+.sit-stage > * { grid-area: 1 / 1; }
+.breath-box { display: flex; flex-direction: column; align-items: center; }
+.breath {
+  width: 9rem; height: 9rem; border-radius: 50%;
+  border: 1px solid var(--muted);
+  transform: scale(.55);
+  transition: transform 4s ease-in-out;
+}
+.breath.in { transform: scale(1); }
+.breath-cue { color: var(--muted); font-size: .85rem; letter-spacing: .14em; margin: 1.25rem 0 0; min-height: 1.4em; }
+.remaining { color: var(--muted); font-size: .8rem; line-height: 1.3; font-variant-numeric: tabular-nums; margin: 1.5rem 0; height: 1.3em; }
+.sit-question { margin: 0; text-align: center; color: var(--fg); opacity: .85;
+  font: italic 400 1.3rem/1.55 var(--serif); text-wrap: balance; animation: fade 2s ease; }
+.sit-mode { position: absolute; bottom: max(2rem, env(safe-area-inset-bottom)); left: 0; right: 0; justify-content: center; }
+.sit-mode button.link { font-size: .8rem; color: var(--muted); }
+.sit-mode button.link[aria-checked="true"] { color: var(--fg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .view, .silence, .closing, #closing { animation: none; }
+  .breath { transition: none; }
+}
+
+/* Origin maps on the About page: bare coastlines, and dots that open a card */
+.map-figure { margin: 1.5rem 0; }
+.map-figure figcaption { font: 400 .7rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+.map-wrap { position: relative; }
+.map { display: block; width: 100%; height: auto; }
+.map-coast { fill: none; stroke: var(--fg); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.map-dot { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0;
+  border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.map-dot::before { content: ""; position: absolute; inset: var(--dot-inset, 17px); border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg);  /* a halo that hides the coastline under the dot */
+  transition: transform .2s ease; }
+/* A slow, soft ring that draws the eye without blinking. */
+.map-dot::after { content: ""; position: absolute; inset: var(--dot-inset, 17px); border-radius: 50%; border: 1px solid var(--accent);
+  opacity: 0; animation: map-pulse 3.6s ease-out infinite; pointer-events: none; }
+.map-dot:nth-of-type(4n+2)::after { animation-delay: .9s; }
+.map-dot:nth-of-type(4n+3)::after { animation-delay: 1.8s; }
+.map-dot:nth-of-type(4n)::after { animation-delay: 2.7s; }
+@keyframes map-pulse {
+  0% { transform: scale(1); opacity: .7; }
+  70%, 100% { transform: scale(2.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .map-dot::after { animation: none; } }
+.map-dot:hover::before, .map-dot[aria-expanded="true"]::before { transform: scale(1.35); }
+.map-dot:focus-visible { outline: none; }
+.map-dot:focus-visible::before { outline: 1px solid var(--fg); outline-offset: 3px; }
+
+/* Under the phone's clock and battery, text scrolling up fades into the page instead of
+   running behind them. Only where the app draws under that bar (the phone apps, the home-screen
+   web app); in a browser tab the inset is 0 and nothing shows. Below the pickers and the launch. */
+body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: 28; pointer-events: none;
+  height: calc(env(safe-area-inset-top) * 1.6);
+  background: linear-gradient(var(--bg) 62%, transparent); }
+
+/* Launch screen: the well sits exactly where Android's own splash icon was (a 288dp box,
+   centred), so the hand-over is invisible; only the name fades in. */
+.launch { position: fixed; inset: 0; z-index: 100; background: var(--bg); transition: opacity .9s ease; }
+.launch.done { opacity: 0; pointer-events: none; }
+.launch-mark { position: absolute; left: 50%; top: 50%; width: 288px; height: 288px; margin: -144px 0 0 -144px; }
+.launch-name { position: absolute; left: 0; right: 0; top: calc(50% + 92px); margin: 0; text-align: center;
+  font: 400 1.35rem/1 var(--serif); letter-spacing: .04em; color: var(--fg); animation: launch-in 1s .3s ease both; }
+@keyframes launch-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* The day reveals itself gently on opening: greeting, date, the thought, then the question. */
+#view-day.reveal { animation: none; }
+#view-day.reveal [data-step] { opacity: 0; }
+#view-day.reveal.go [data-step] { animation: rise var(--rise-s, 2.2s) ease both; animation-delay: calc(var(--step) * var(--step-s, 1.4s)); }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Origin maps: a soft line between the two */
+.map-figure + .map-figure { border-top: 1px solid var(--faint); padding-top: 1.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .launch, .launch-name { animation: none; transition: none; }
+  #view-day.reveal [data-step] { opacity: 1; animation: none !important; }
+}
+
+.setting-help { font-size: .8rem; line-height: 1.5; margin-top: .75rem; }
+.setting-help button.inline-link { font-size: inherit; padding: 0; color: var(--fg); border-bottom-color: var(--faint); }
+/* While the note box has focus, the bottom bar steps aside (app.js) */
+body.typing .nav { display: none; }
+.setting-text { margin-top: 0; }
+#easy-status { transition: opacity .35s ease; }
+#easy-status.changing { opacity: 0; }
+
+/* Short pauses between the day's three blocks */
+.pause { width: 2.5rem; height: 0; border-top: 1px solid var(--faint); margin: 2.5rem auto; }
+
+/* Settings gear in the bottom bar */
+.nav { align-items: center; }
+.nav-gear { display: inline-flex; color: var(--muted); }
+.nav-gear svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
+.nav-gear[aria-current="page"] { color: var(--fg); }
+/* The gear stays small, but its tap area is a full 48×48 (Android's minimum; iOS asks for 44) */
+.nav a.nav-gear::after { inset: auto; left: 50%; top: 50%; width: 48px; height: 48px; transform: translate(-50%, -50%); }
+
+/* A large, soft opening quotation mark above each thought: a sign, not punctuation,
+   so it needs no closing partner. */
+.passage::before { content: "“"; display: block; font: 400 4rem/1 var(--serif); color: var(--accent);
+  opacity: .35; height: 2.1rem; margin-bottom: .2rem;
+  pointer-events: none; }  /* the glyph hangs over the first line: taps must reach its words */
+.passage.long::before { text-align: left; }
+
+/* Second and third rows of a setting */
+.setting-row { margin-top: .6rem; }
+.setting-label { color: var(--muted); font-size: .8rem; margin-right: .35rem; }
+.setting-sub { margin: 1rem 0 .1rem; }
+
+/* A faint chevron when the day's question is out of sight on long thoughts */
+.more-below { position: absolute; left: 50%; bottom: calc(100% + .1rem); width: 44px; height: 32px; margin-left: -22px;
+  padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; opacity: 0; pointer-events: none;
+  transition: opacity .8s ease; }
+.more-below.show { opacity: .75; pointer-events: auto; }
+.more-below svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  animation: nudge 2.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .more-below svg { animation: none; } }
+
+
+/* The about-this-thought button sits above its note, so closing it stays one tap away */
+#context-toggle { margin-top: .25rem; }
+/* "about this thought": a small arrow after the words, upside down while the note is open.
+   Drawn with ::before (row-reverse puts it after) because the app rewrites the text. */
+button.about-toggle { display: flex; width: fit-content; flex-direction: row-reverse; align-items: center; gap: .35em; margin-inline: auto; }
+.about-toggle::before {
+  content: ""; width: .7em; height: .7em; background: currentColor; transition: transform .3s ease;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.about-toggle[aria-expanded="true"]::before { transform: rotate(180deg); }
+
+/* The question waits below the fold until it is scrolled into view */
+#view-day #pause-2, #view-day .question, #view-day #memory, #view-day .actions, #view-day #note-preview { transition: opacity 1.8s ease, transform 1.8s ease; }
+#view-day .held { opacity: 0; transform: translateY(6px); pointer-events: none; }
+
+/* Past thoughts: filters, more, and the backup nudge */
+.filters { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .6rem; margin-top: 1.75rem; }
+.filter { background: none; border: 0; border-bottom: 1px solid var(--faint); padding: .35rem 0; margin: 0;
+  font: inherit; font-size: .85rem; color: var(--fg); cursor: pointer; }
+.filter::after { content: " ▾"; color: var(--muted); font-size: .7rem; }
+.filter.active { border-bottom-color: var(--fg); }
+.filter:focus-visible { outline: 1px solid var(--muted); outline-offset: 4px; }
+.picker-back { position: fixed; inset: 0; z-index: 29; }
+.picker { position: fixed; z-index: 30; margin: 0; padding: .35rem 0; list-style: none;
+  width: min(18rem, calc(100vw - 2rem)); max-height: 66vh; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg); border: 1px solid var(--faint); border-radius: 14px; box-shadow: 0 8px 30px rgba(0, 0, 0, .14);
+  animation: fade .2s ease; }
+.picker li { padding: .6rem 1.1rem; font-size: .92rem; cursor: pointer; }
+.picker li[aria-selected="true"] { color: var(--accent); }
+.picker li::after { content: "✓"; float: right; margin-left: .75rem; visibility: hidden; }
+.picker li[aria-selected="true"]::after { visibility: visible; }
+.picker li:focus-visible { outline: none; background: var(--faint); }
+@media (hover: hover) { .picker li:hover { background: var(--faint); } }
+.filters + .journal { margin-top: 1.25rem; }
+.journal-more { margin-top: 1.5rem; }
+.journal-empty { margin-top: 1.5rem; font-size: .9rem; }
+.backup-card { margin-top: 1.5rem; padding: 1rem 1.1rem; border: 1px solid var(--faint); border-radius: 14px; font-size: .9rem; }
+.backup-card p { margin: 0 0 .5rem; }
+button.quiet-inline { color: var(--muted); }
+
+/* Links at the end of a block (feedback) */
+.block-links { margin-top: .5rem; }
+.block-links a { color: var(--fg); display: inline-block; max-width: 100%; }  /* kept whole, unless wider than the screen */
+
+/* The paths through time */
+.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0 0 0 1.1rem; border-left: 1px solid var(--faint); }
+.tl-item { position: relative; }
+.tl-item::before { content: ""; position: absolute; left: calc(-1.1rem - 4px); top: .45rem; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
+.tl-year { display: block; color: var(--muted); font-size: .72rem; line-height: 1.4; letter-spacing: .06em; }
+.tl-path { display: block; background: none; border: 0; padding: .1rem 0 0; text-align: left; font: 400 1rem/1.4 var(--serif); color: var(--fg); cursor: pointer;
+  text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--muted) 70%, transparent); text-underline-offset: .22em; }
+.tl-path:focus-visible { outline: 1px solid var(--muted); outline-offset: 2px; }
+.tl-break { position: relative; margin: 1.1rem 0 1.1rem -1.1rem; padding: .2rem 0 .2rem 0; background: var(--bg);
+  color: var(--muted); font-size: .75rem; display: flex; gap: .6rem; align-items: center; }
+.tl-mark { font: 400 1rem/1 var(--serif); letter-spacing: -.1em; margin-left: -.3rem; color: var(--muted); }
+.tl-gap { font-style: italic; }
+
+/* The world map marks the area the closer Europe map shows */
+.map-inset { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; opacity: .7; }
+
+/* First launch: the short tour */
+.welcome .tour-step { max-width: 22rem; }
+/* Every card starts at the same height, so headlines line up and anything that opens grows
+   downwards; a long card scrolls inside, above the fixed bottom row. One size per kind of
+   text on every card: headline, description, then the example. */
+.welcome.closing { justify-content: flex-start; padding: max(15vh, 4.5rem) 1.5rem 6.5rem; overflow-y: auto; }
+.welcome .tour-title { font: 400 1.3rem/1.35 var(--serif) !important; margin: 0 0 .8rem !important; text-wrap: balance; }
+.welcome .tour-text { font: 300 .95rem/1.6 var(--sans) !important; color: var(--muted); margin: 0 0 1.6rem !important; text-wrap: pretty; }
+/* Card changes: the old card fades out (0.2 s), the new one fades in (0.3 s), drifting 8px
+   from the side it comes from; only the fade with reduced motion. Swipes pan sideways. */
+.welcome { touch-action: pan-y; --drift: 8px; }
+.welcome .tour-step.tour-out { animation: tour-out .2s ease-out forwards; }
+.welcome .tour-step.tour-in-next { animation: tour-in .3s ease-out; }
+.welcome .tour-step.tour-in-back { animation: tour-in .3s ease-out; --from: calc(-1 * var(--drift)); }
+@keyframes tour-out { to { opacity: 0; } }
+@keyframes tour-in { from { opacity: 0; transform: translateX(var(--from, var(--drift))); } }
+.tour-foot { position: fixed; left: 0; right: 0; bottom: 0; padding: .5rem 0 max(2rem, calc(env(safe-area-inset-bottom) + 1rem));
+  display: flex; justify-content: space-between; align-items: center; width: min(22rem, calc(100% - 3rem)); margin: 0 auto;
+  background: var(--bg); }
+/* A long card scrolls under the bottom row: a short fade above it, as above the bottom bar */
+.tour-foot::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 1.5rem;
+  background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+.tour-dots { color: var(--muted); font-size: .55rem; letter-spacing: .35em; }
+.welcome .tour-step { width: 100%; }
+/* The welcome mark: one ray at a time turns teal, with its path's name underneath */
+.tour-mark svg { width: 9rem; height: 9rem; margin: .2rem auto; display: block; }
+/* A day in miniature, between two faint lines like the note box. .closing p sets an italic
+   serif for the goodbye lines, so every text here gets its full font again. */
+.welcome .sample { margin: 0 auto 1.4rem; padding: 1.3rem 0 1.2rem; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); }
+.welcome .sample .school, .welcome .tour-ray-name { font: 600 .72rem/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 0 0 .9rem; }
+.welcome .tour-ray-name { min-height: 1.4em; margin: 0; }
+.welcome .sample .passage p { font: 400 1.22rem/1.45 var(--serif); margin: 0; }
+.welcome .sample .source { font: 300 .82rem/1.5 var(--sans); color: var(--muted); margin: .9rem 0 0; }
+.welcome .sample .prompt { font: italic 400 1rem/1.5 var(--serif); margin: 1rem auto 0; }
+.welcome .sample .question-label { font: 400 .8rem/1.4 var(--sans); letter-spacing: .01em; color: var(--muted); margin: 0 0 .5rem; }
+.welcome .sample .actions { margin-top: 1.2rem; }
+.welcome .sample .actions .term { font-size: .9rem; color: var(--fg); }
+.welcome .sample button.quiet { margin-top: .6rem; }
+.welcome .sample .context p { font: 300 .86rem/1.55 var(--sans); color: var(--muted); margin: .6rem auto 0; max-width: 20rem; white-space: pre-line; text-align: left; }
+/* Skip sits quietly in the top corner; back, the dots and next share the bottom */
+.welcome button.tour-skip { position: fixed; top: max(1.25rem, calc(env(safe-area-inset-top) + .75rem)); right: 1.5rem; background: var(--bg); padding: .35rem .5rem; margin-right: -.5rem; }
+.tour-foot .hide { visibility: hidden; }
+#welcome-form .name-input { text-align: center; margin: .5rem 0 .75rem; }
+
+/* Sit and think: a soft start, and a soft finish */
+.sit-intro { font: italic 400 1.4rem/1.5 var(--serif); color: var(--fg); margin: 0; animation: intro 3.5s ease both; }
+@keyframes intro { 0% { opacity: 0; } 30%, 70% { opacity: .9; } 100% { opacity: 0; } }
+.sit-question, .breath-box { transition: opacity 2s ease; }
+.silence.done .sit-question, .silence.done .breath-box { opacity: 0; }
+.sit-foot { display: grid; justify-items: center; align-items: start; min-height: 7rem; }
+.sit-foot > * { grid-area: 1 / 1; }
+.silence.done #close-silence { visibility: hidden; }
+.sit-done { text-align: center; display: grid; justify-items: center; }
+.sit-done-actions, .sit-goodbye { grid-area: 2 / 1; }
+.sit-goodbye { margin: .35rem 0 0; color: var(--muted); font: italic 400 1.05rem/1.5 var(--serif); animation: fade 1.5s ease .4s both; }
+.silence.bye .sit-done-actions { visibility: hidden; }
+.silence.bye { cursor: pointer; }
+.silence.leaving { animation: fadeout 1.2s ease both; pointer-events: none; }
+.sit-welcome { font: italic 400 1.3rem/1.5 var(--serif); margin: 0 0 1.5rem; animation: fade 2s ease 1.2s both; }
+.sit-done-actions { justify-content: center; animation: fade 2s ease 3s both; }
+@media (prefers-reduced-motion: reduce) {
+  .sit-intro, .sit-welcome, .sit-done-actions { animation: none; }
+  .welcome { --drift: 0px; }
+  #view-day .held { transition: none; }
+}
+
+/* First launch: start now, or ease in */
+.start-choice { display: flex; flex-direction: column; align-items: center; gap: .6rem; margin-top: .25rem; }
+.start-choice button.link { font-size: 1rem; }
+.welcome .start-hint { margin: 1.5rem auto 0 !important; max-width: 18rem; }
+
+/* Meeting a thought again: when you first met it, and what you wrote then */
+.memory { max-width: 26rem; margin: 1.9rem auto 0; padding: .9rem 1rem; text-align: center; color: var(--muted);
+  font-size: .85rem; border: 1px solid var(--faint); border-radius: 14px; }
+.memory-when { margin: 0 0 .35rem; }
+.memory-note { margin: 0 0 .45rem; font: italic 400 1rem/1.5 var(--serif); color: var(--fg); white-space: pre-line; }
+.memory-link { color: var(--muted); font-size: .8rem; }
+.memory-item + .memory-item { margin-top: 1rem; }
+.memory-date { margin: 0 0 .15rem; font-size: .75rem; letter-spacing: .06em; }
+
+/* "saved" in past thoughts is an on/off filter, not a list */
+.filter-toggle::after { content: none; }
+
+/* Monthly questions. On Today, from the month's last day for a week: the question between two
+   short dashes, like the ones between the parts of the day. */
+.mq-line { display: block; text-align: center; color: inherit; text-decoration: none; margin: 0 auto 2.2rem; max-width: 24rem; cursor: pointer; }
+.mq-line::before, .mq-line::after { content: ""; display: block; width: 2.5rem; margin: 0 auto 1rem; border-top: 1px solid var(--faint); }
+.mq-line::after { margin: 1.1rem auto 0; }
+.mq-small { display: block; color: var(--muted); font-size: .8rem; letter-spacing: .01em; }
+.mq-line .mq-q { display: block; font: italic 400 1.05rem/1.45 var(--serif); margin: .25rem 0 .2rem; }
+.mq-line .mq-go { display: inline-block; font-size: .85rem; border-bottom: 1px solid var(--faint); padding-bottom: .1rem; }
+.mq-line .mq-go::after { content: " →"; }
+/* The page: the voices, oldest first, on a thin line with a small hollow dot each */
+button.mq-back { display: inline-block; margin: 0 0 2rem; }
+.mq .mq-small { margin: 0 0 .4rem; }
+.mq-title { font: 400 1.7rem/1.3 var(--serif); margin: 0 0 .7rem; text-wrap: balance; }
+.mq-intro { color: var(--muted); font-size: .95rem; margin: 0 0 2.2rem; }
+.mq-voices { list-style: none; margin: 0; padding: 0; position: relative; }
+.mq-voices::before { content: ""; position: absolute; left: .2rem; top: 1rem; bottom: 1.5rem; width: 1px; background: var(--faint); }
+.mq-voice { position: relative; padding: 0 0 2.1rem 1.6rem; overflow-wrap: break-word; }  /* the largest text sizes */
+.mq-voice::before { content: ""; position: absolute; left: calc(.2rem - 3px); top: .35rem; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--muted); }
+.mq-voice-path { color: var(--accent); font: 600 .68rem/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; margin: 0 0 .2rem; overflow-wrap: anywhere; }
+.mq-voice-name { font: 400 1.15rem/1.3 var(--serif); margin: 0 0 .45rem; }
+.mq-voice-line { margin: 0 0 .45rem; font-size: .98rem; }
+.mq-voice-words { font: italic 400 1.02rem/1.5 var(--serif); margin: 0 0 .4rem; }
+.mq-voice-links { display: flex; flex-wrap: wrap; gap: 0 1rem; }
+.mq-fold { background: none; border: 0; padding: .35rem 0; font: inherit; font-size: .82rem; color: var(--muted); cursor: pointer;
+  display: inline-flex; align-items: center; gap: .35em; }
+.mq-fold::after { content: ""; width: .65em; height: .65em; background: currentColor; transition: transform .3s ease;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+.mq-fold[aria-expanded="true"]::after { transform: rotate(180deg); }
+.mq-folded { margin: .3rem 0 .4rem; padding: .1rem 0 .1rem .9rem; border-left: 1px solid var(--faint); }
+.mq-folded .mq-passage { font: 400 1rem/1.55 var(--serif); margin: 0 0 .3rem; white-space: pre-line; }
+.mq-folded .mq-source { color: var(--muted); font-size: .8rem; margin: 0; }
+.mq-folded .mq-past-note { font: italic 400 .98rem/1.55 var(--serif); margin: 0; white-space: pre-line; }
+/* Where do you stand? */
+.mq-stand { margin-top: 1.2rem; padding-top: 2rem; border-top: 1px solid var(--faint); }
+/* The question again, in the About headings' small capitals: readers forget it by the end */
+.mq-ask { font: 400 .75rem/1.5 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 .9rem; }
+.mq-source-small { color: var(--muted); font-size: .8rem; margin: 0; padding: .35rem 0; }
+.journal .j-pick { font-size: .85rem; color: var(--muted); margin: .4rem 0 0; }
+.mq-stand h2 { font: 400 1.3rem/1.35 var(--serif); letter-spacing: 0; text-transform: none; color: var(--fg); margin: 0 0 .5rem; }
+.mq-way-in { color: var(--muted); margin: 0 0 1.6rem; }
+.mq-pick-label { font-size: .9rem; margin: 0 0 .5rem; }
+.mq-picks { display: flex; flex-wrap: wrap; gap: .1rem 1.1rem; margin: 0 0 1.6rem; }
+.mq-picks button { background: none; border: 0; border-bottom: 1px solid transparent; padding: .4rem 0; font: inherit; font-size: .95rem; color: var(--fg); cursor: pointer; }
+.mq-picks button[aria-checked="true"] { border-bottom-color: var(--fg); }
+.mq-picks button[aria-checked="true"]::before { content: "✓ "; }
+.mq-pushback { margin: 0 0 1rem; padding: 1.1rem 0 .4rem; border-top: 1px solid var(--faint); animation: fade .6s ease; }
+.mq-pushback h3 { color: var(--fg); font: 400 1.05rem/1.4 var(--serif); margin: 0 0 .3rem; }
+.mq-why { color: var(--muted); font-size: .88rem; margin: 0 0 1.1rem; }
+.mq-pushback .mq-voices::before, .mq-pushback .mq-voice::before { display: none; }
+.mq-pushback .mq-voice { padding-left: 0; padding-bottom: 1rem; }
+.mq #mq-note { margin-top: .4rem; }
+.mq-sit { margin: 1.4rem 0 0; }
+
+/* The Library: its home, sections and pages. Page text is the content team's, as written. */
+.lib-h1 { font: 400 1.9rem/1.25 var(--serif); margin: 0 0 .5rem; }
+.lib-intro { color: var(--muted); margin: 0 0 1.4rem; }
+.lib-back { display: inline-block; background: none; border: 0; padding: 0; font: inherit; color: var(--muted); font-size: .85rem; text-decoration: none; margin: 0 0 1.6rem; cursor: pointer; }
+.lib-list { list-style: none; margin: 0; padding: 0; }
+.lib-list li { border-top: 1px solid var(--faint); }
+.lib-list li:last-child { border-bottom: 1px solid var(--faint); }
+.lib-list a { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .15rem 1rem; padding: .7rem 0; color: inherit; text-decoration: none; }
+/* The name takes the room left by the path; only when even its longest word can't fit beside it
+   (a small phone with large text) does the path drop to the line below */
+.lib-list .t { font: 400 1.05rem/1.35 var(--serif); }
+.lib-list a > :first-child { flex: 1 1 0; min-width: min-content; }
+.lib-list .k { color: var(--accent); font: 600 .62rem/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; text-align: right; flex-shrink: 0; max-width: 45%;
+  min-width: min-content; margin-left: auto; }  /* never narrower than its longest word ("ENLIGHTENMENT") */
+.lib-list .d { display: block; color: var(--muted); font: 300 .85rem/1.45 var(--sans); margin-top: .15rem; }
+.lib-list.two a { display: block; }
+.lib-letter { color: var(--muted); font-size: .75rem; letter-spacing: .14em; margin: 1.1rem 0 .2rem; }
+.lib-kind { color: var(--accent); font: 600 .72rem/1.4 var(--sans); letter-spacing: .2em; text-transform: uppercase; margin: 0 0 .4rem; }
+.lib-page .lib-h1 { margin-bottom: .35rem; }
+.lib-header { color: var(--muted); font-size: .9rem; margin: 0 0 1.6rem; }
+.lib-also { color: var(--muted); font-size: .82rem; margin: -1rem 0 1.6rem; }
+.lib-header[hidden] + .lib-also { margin-top: .4rem; }  /* pages without a header line */
+.lib-header a, .lib-text a.lib-in, .lib-related a, .lib-era a { color: inherit; text-decoration: underline 1px; text-underline-offset: .22em;
+  text-decoration-color: color-mix(in srgb, var(--muted) 70%, transparent); }
+.lib-text p, .lib-text li { font-size: 1rem; line-height: 1.65; }
+.lib-text p { margin: 0 0 .9rem; }
+.lib-text ul { margin: 0 0 .9rem; padding-left: 1.1rem; }
+.lib-text li { margin: 0 0 .5rem; }
+.lib-text strong { font-weight: 500; }
+.lib-text .lib-one-line { font: italic 400 1.15rem/1.5 var(--serif); margin: 0 0 1.4rem; }
+.lib-page h2 { margin-top: 2.2rem; }
+.lib-era { margin: 1.8rem 0 0; padding: .9rem 0; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); font-size: .95rem; }
+.lib-era .k { color: var(--muted); font-size: .8rem; display: block; margin-bottom: .15rem; }
+.lib-met { list-style: none; padding: 0; margin: 0; }
+.lib-met li { padding: .8rem 0; border-top: 1px solid var(--faint); }
+.lib-met li:first-child { border-top: 0; padding-top: 0; }
+.lib-met a { color: inherit; text-decoration: none; display: block; }
+.lib-met .date { color: var(--muted); font-size: .78rem; }
+.lib-met .q { font: 400 1.02rem/1.5 var(--serif); margin: .2rem 0 0; white-space: pre-line; }
+.lib-met .mq-folded { margin-top: .3rem; }
+.lib-related { display: flex; flex-wrap: wrap; gap: .3rem 1.1rem; font-size: .95rem; }
+.lib-sources { list-style: none; padding: 0; margin: 0; font-size: .8rem; line-height: 1.5; color: var(--muted); word-break: break-word; }
+.lib-sources li { margin: 0 0 .35rem; }
+.lib-sources a { color: var(--muted); }
+.lib-end { color: var(--muted); font-size: .88rem; margin: 1.4rem 0 0; }
+.lib-end a { color: inherit; }
+.card-more { margin: .6rem 0 0; font-size: .85rem; }
+.card-more a { color: var(--fg); text-decoration: underline 1px; text-underline-offset: .22em; text-decoration-color: var(--faint); }
+/* "Before you read": the essay, folded after the first visit */
+.lib-fold { background: none; border: 0; padding: .9rem 0; width: 100%; text-align: left; cursor: pointer; color: inherit; font: inherit;
+  border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); margin-bottom: 1.2rem; }
+.lib-fold .t { display: flex; align-items: center; gap: .4em; font: italic 400 1.1rem/1.4 var(--serif); }
+.lib-fold .d { display: block; color: var(--muted); font-size: .88rem; margin-top: .25rem; }
+.lib-chev { width: .7em; height: .7em; background: var(--muted); transition: transform .3s ease;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+.lib-fold[aria-expanded="true"] .lib-chev { transform: rotate(180deg); }
+.lib h2 { margin-top: 2.2rem; }
+/* The Library home: search, and the weekly highlight */
+.lib-search { width: 100%; font: inherit; font-size: 1rem; color: var(--fg); background: transparent; border: 0; border-radius: 0;
+  border-bottom: 1px solid var(--faint); padding: .6rem 0 .6rem 1.6rem; margin: 0 0 1rem; -webkit-appearance: none; appearance: none;
+  background: no-repeat left center / 1rem url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a857d' stroke-width='1.6' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5 21 21'/%3E%3C/svg%3E"); }
+.lib-search:focus { outline: none; border-bottom-color: var(--muted); }
+.lib-search::placeholder { color: var(--muted); }
+.lib-list .d mark { background: none; color: var(--fg); font-weight: 500; }
+.lib-hl-label { color: var(--accent); font: 600 .72rem/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; margin: 2.4rem 0 .5rem; }
+.lib-hl { display: block; color: inherit; text-decoration: none; padding: 1rem 0 1.1rem; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); }
+.lib-hl .kind { display: block; color: var(--muted); font-size: .78rem; margin: 0 0 .15rem; }
+.lib-hl .t { display: block; font: 400 1.35rem/1.3 var(--serif); }
+.lib-hl .d { color: var(--muted); font-size: .9rem; margin: .35rem 0 .4rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.lib-hl .go { font-size: .85rem; border-bottom: 1px solid var(--faint); }
+.lib-hl .go::after { content: " →"; }
+.lib .map-figure figcaption { display: none; }  /* the section's own title says it */
+.journal-topic { margin: 1rem 0 0; font-size: .9rem; }
+.journal-topic a { color: var(--fg); text-decoration: underline 1px; text-underline-offset: .22em; text-decoration-color: var(--faint); }
+/* Map tap zones: in the Library, tapping Europe or Asia on the world map opens its closer map */
+.map-zoom { display: none; }
+.lib .map-zoom { display: block; position: absolute; border-radius: 4px; -webkit-tap-highlight-color: transparent; }
+#view-about .map-figure[data-map="asia"] { display: none; }  /* the Asia map lives in the Library only */
+.lib-map-hint { color: var(--muted); font-size: .85rem; margin: .6rem 0 0; }
+/* The thinkers through time: a rail down the left, a dot per thinker, a label per century */
+.ttl-note { color: var(--muted); font-size: .85rem; margin: 0 0 .4rem; }
+.ttl { list-style: none; margin: 1rem 0 0; padding: 0 0 0 1.4rem; position: relative; }
+.ttl::before { content: ""; position: absolute; left: .3rem; top: .4rem; bottom: .4rem; width: 1px; background: var(--faint); }
+.ttl-century { margin: 1.4rem 0 .3rem; }
+.ttl-century span { color: var(--muted); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+.ttl-century::before { content: ""; position: absolute; left: calc(.3rem - 4px); width: 9px; height: 1px; margin-top: .55rem; background: var(--muted); }
+.ttl-row { position: relative; }
+.ttl-row::before { content: ""; position: absolute; left: calc(-1.1rem - 3px); top: 1.05rem; width: 7px; height: 7px; border-radius: 50%; background: var(--fg); }
+.ttl-row.soft::before { background: var(--bg); border: 1px dashed var(--muted); width: 6px; height: 6px; }
+.ttl-row a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 .8rem; padding: .55rem 0; color: inherit; text-decoration: none; border-bottom: 1px solid var(--faint); }
+.ttl-row .t { font: 400 1.05rem/1.35 var(--serif); overflow-wrap: break-word; }
+.ttl-row.soft .t { font-style: italic; }
+.ttl-row .d { grid-column: 1; color: var(--muted); font-size: .8rem; }
+.ttl-row .k { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--accent); font: 600 .6rem/1.4 var(--sans); letter-spacing: .16em; text-transform: uppercase; text-align: right; max-width: 7.5rem; min-width: min-content; }
+.ttl-gap { margin: 1.2rem 0 .2rem; }
+.ttl-gap span { color: var(--muted); font: italic 400 .9rem/1.4 var(--serif); }
+.ttl-gap::before { content: ""; position: absolute; left: .3rem; width: 1px; height: 2.2rem; margin-top: -.6rem; background: var(--bg); border-left: 1px dashed var(--muted); }
+.card-more a { display: block; margin: 0 0 .25rem; }
+.mq-voice-link { color: inherit; text-decoration: underline 1px; text-underline-offset: .22em; text-decoration-color: var(--faint); }
+
+/* ---------- Compare two paths, Questions for good conversations ---------- */
+/* The picker: tap two paths; a picked one is ticked, bold, and outlined (never colour alone) */
+.lib .pick-label { color: var(--muted); font-size: .85rem; margin: 0 0 .6rem; }
+.lib .chips { display: flex; flex-wrap: wrap; gap: .5rem .55rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
+.lib .chip { font: inherit; font-size: .9rem; color: var(--fg); background: none; border: 1px solid var(--faint);
+  border-radius: 999px; padding: .4rem .8rem; cursor: pointer; }
+.lib .chip[aria-pressed="true"] { border-color: var(--fg); font-weight: 500; }
+.lib .chip[aria-pressed="true"]::before { content: "✓ "; }
+.lib .chip:focus-visible { outline: 1px solid var(--muted); outline-offset: 3px; }
+.lib .verdict { border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); padding: 1rem 0 1.1rem; margin: 0 0 1rem; }
+.lib .verdict-pair { display: block; color: inherit; text-decoration: none; }
+.lib .verdict .t { display: block; font: 400 1.25rem/1.3 var(--serif); }
+.lib .verdict .d { display: block; color: var(--muted); font-size: .9rem; margin: .35rem 0 .45rem; }
+.lib .verdict .go, .lib .pair-links .go { font-size: .85rem; border-bottom: 1px solid var(--faint); }
+.lib .verdict .go::after, .lib .pair-links .go::after { content: " →"; }
+.lib .verdict .quiet { color: var(--muted); font: italic 400 1rem/1.5 var(--serif); margin: 0; }
+/* A pair page: each point a bold heading, then its text; the thoughts with our gloss */
+.lib-text .lib-points { list-style: none; padding: 0; margin: 0; }
+.lib-text .lib-points li { margin: 0 0 .8rem; }
+.lib-cite { display: block; color: inherit; text-decoration: none; padding: .85rem 0; border-top: 1px solid var(--faint); }
+.lib-cite:last-child { border-bottom: 1px solid var(--faint); }
+.lib-cite .p, .conv-from .p { color: var(--accent); font: 600 .6rem/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; }
+.lib-cite .q { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  font: 400 1.02rem/1.5 var(--serif); margin: .25rem 0 .2rem; white-space: pre-line; }
+.lib-cite .s { display: block; color: var(--muted); font-size: .8rem; }
+.lib .pair-links { margin: .2rem 0 0; display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; }
+.lib .pair-links a:not(.go) { color: inherit; text-decoration: underline 1px; text-underline-offset: .22em; text-decoration-color: var(--faint); }
+.lib .pair-links + .pair-links { margin-top: .6rem; }
+.lib .pair-links .go { color: inherit; text-decoration: none; }
+.lib .compare-k { color: var(--muted); font-size: .85rem; margin: 1rem 0 .3rem; }
+/* Questions: "give me one" underlined like the other text buttons, a filter by who you're with */
+.lib .conv-give { border-bottom-color: var(--faint); margin: 0 0 .5rem; }
+.lib .conv-card { border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); padding: 1rem 0; margin: 0 0 .9rem; }
+.lib .conv-card .q { font: italic 400 1.25rem/1.45 var(--serif); margin: 0 0 .5rem; }
+.lib .conv-filter { margin: 0 0 1.2rem; }
+.lib .conv-list { list-style: none; padding: 0; margin: 0; }
+.lib .conv-list li { padding: .8rem 0; border-top: 1px solid var(--faint); }
+.lib .conv-list li:last-child { border-bottom: 1px solid var(--faint); }
+.lib .conv-list .q { font: 400 1.05rem/1.45 var(--serif); margin: 0 0 .25rem; }
+.conv-from { color: var(--muted); font-size: .8rem; text-decoration: none; }
+a.conv-from::after { content: " →"; }
+.conv-from .p { font-size: .58rem; margin-left: .3rem; }
+
+/* ---------- Wide screens (the web app on a computer, 1000px and up; phones never get this) ---------- */
+.rail { display: none; }
+@media (min-width: 1000px) {
+  /* A little bigger (16px -> 18px), with a reading column of about 720px. --desk scales the text-size setting too. */
+  html { --desk: 1.125; font-size: 112.5%; }
+  #app { max-width: 40rem; padding-top: 12vh; }
+
+  /* The Library: a rail on the left, the page at reading width on the right */
+  body.lib-rail #app { max-width: 66rem; display: grid; grid-template-columns: 15rem minmax(0, 38rem); gap: 0 5rem;
+    justify-content: center; align-content: start; padding-top: 10vh; }
+  body.lib-rail #app > * { grid-column: 2; }
+  body.lib-rail #app > .rail { grid-column: 1; grid-row: 1 / span 30; }
+  body.lib-rail .lib-back { display: none; }  /* the rail and the browser's back button replace it */
+  body.lib-rail .rail { display: block; position: sticky; top: 2rem; align-self: start; font-size: .88rem; }
+  .rail .home { display: block; font: 400 1.25rem/1.3 var(--serif); color: inherit; text-decoration: none; margin: 0 0 .9rem; }
+  .rail input { box-sizing: border-box; width: 100%; font: inherit; color: var(--fg); background: transparent; border: 0;
+    border-bottom: 1px solid var(--faint); border-radius: 0; padding: .5rem 0; margin: 0 0 1.2rem; }
+  .rail input:focus { outline: none; border-bottom-color: var(--muted); }
+  .rail input::placeholder { color: var(--muted); }
+  .rail ul { list-style: none; margin: 0; padding: 0; }
+  .rail .secs > li > a { display: block; padding: .35rem 0; color: var(--muted); text-decoration: none; }
+  .rail .secs > li > a[aria-current], .rail a:hover { color: var(--fg); }
+  .rail .sub { max-height: calc(90vh - 23rem);  /* clears the bottom bar, at any text size */ overflow-y: auto; scrollbar-width: thin; margin: .1rem 0 .6rem;
+    padding-left: .8rem; border-left: 1px solid var(--faint); }
+  .rail .sub a { display: block; padding: .18rem 0; color: var(--muted); text-decoration: none; font: 400 .92rem/1.35 var(--serif); }
+  .rail .sub a[aria-current] { color: var(--fg); }
+  .rail .sub .letter { margin: .6rem 0 .1rem; font-size: .65rem; letter-spacing: .14em; color: var(--muted); }
+
+  /* The Library home: no rail; the sections and the weekly highlight side by side */
+  body.lib-home #app { max-width: 50rem; }
+  body.lib-home #lib-body.home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3.5rem; align-items: start; }
+  body.lib-home .home-grid > ul { grid-column: 1; grid-row: 1 / span 3; margin-top: 0; }
+  body.lib-home .home-grid > :not(ul) { grid-column: 2; }
+  body.lib-home .lib-hl-label { margin-top: 0; }
+
+  /* The maps: no rail, and the map breaks out of the column */
+  body.lib-map #view-library .map-figure { width: min(78vw, 66rem); margin-left: 50%; transform: translateX(-50%); }
+  body.lib-map #view-library .map-figure[data-map="europe"] { width: min(78vw, 52rem); }  /* tall: keep it on screen */
+}

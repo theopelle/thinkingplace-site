@@ -1,0 +1,30 @@
+# The Thinking Place
+
+> Philosophy, one day at a time. A free daily-philosophy app: every day, one short passage from the great thinkers of East and West, with a short note on its context and a question to think it through. Free, no ads, no tracking, no account; notes stay on the reader's device and the app works offline.
+
+The Thinking Place is a beginner's guide to philosophy, not a meditation app. Its thoughts come from twelve paths: Stoicism, Epicureanism, Classical Greek Philosophy, Enlightenment Ethics, Existential Thought, Humanists and Essayists, Buddhist Philosophy, Indian Philosophy, Taoism, Confucianism, Japanese Aesthetics, and Persian and Sufi Poetry. Thinkers include Marcus Aurelius, Seneca, Epicurus, Plato, Kant, Nietzsche, Montaigne, Laozi, Confucius, Kenkō, and Rumi, with passages from the Dhammapada and the Upanishads. Every quotation comes from a public-domain text or translation and is credited with its source.
+
+It works in any web browser, on iPhone from the home screen (the App Store version is coming soon; currently in review by Apple), and as an Android app on Google Play: https://play.google.com/store/apps/details?id=app.thinkingplace
+
+## Pages
+
+- [Home](https://thinkingplace.app/): what it is, a thought for each weekday, and how to get it on each device
+- [The web app](https://thinkingplace.app/app/): read today's thought in the browser
+- [About](https://thinkingplace.app/about.html): why it exists, and the voices you'll find in it
+- [Questions](https://thinkingplace.app/questions.html): plain answers about the app, its quotes, notes and devices
+- [Terms & privacy](https://thinkingplace.app/terms.html): no data collected; notes stay on the device
+- [On iPhone](https://thinkingplace.app/iphone.html): adding it to the home screen
+- [The Library](https://thinkingplace.app/library/): pages on the thinkers, texts, paths, eras, and themes behind the daily thoughts, free to read, each with its sources
+
+## The Library
+
+Short pages in plain words on each thinker and text (who they were, what they cared about, where to start reading), each of the twelve paths, the eras they lived in, and themes such as death, duty, and friendship, across traditions. Every page lists its sources. The quotes on them are past daily thoughts, always in the translators' own words.
+
+- [In their time](https://thinkingplace.app/library/time/): the eras, from ancient India to Europe in the age of world wars
+- [Paths](https://thinkingplace.app/library/paths/): the twelve schools of thought
+- [Thinkers and texts](https://thinkingplace.app/library/people/): from A to Z
+- [Themes and topics](https://thinkingplace.app/library/topics/): the big questions, across traditions
+
+## Contact
+
+hello@thinkingplace.app

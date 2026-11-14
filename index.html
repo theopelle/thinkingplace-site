@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Thinking Place</title>
+  <meta name="description" content="Philosophy, one day at a time. Every day, one short passage from the great thinkers of East and West. Free, no ads, no tracking.">
+  <meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#262626" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://thinkingplace.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Thinking Place">
+  <meta property="og:title" content="The Thinking Place">
+  <meta property="og:description" content="Philosophy, one day at a time. One short passage a day from the great thinkers of East and West.">
+  <meta property="og:url" content="https://thinkingplace.app/">
+  <meta property="og:image" content="https://thinkingplace.app/app/icon-512.png">
+  <link rel="icon" href="app/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="app/icon-180.png">
+  <link rel="preload" href="app/fonts/literata-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="app/fonts/literata-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="site.css">
+  <script>
+    // Someone who has already read a thought in the web app ("revealed" is set by the app) goes
+    // straight back to it when they arrive from outside: typed address, bookmark, another site.
+    // Coming from our own pages, going back or reloading, or ?home still shows this page.
+    // Checked in the browser only: nothing is sent anywhere.
+    (function () {
+      var playLive = true;  // the app is on Google Play: Android readers see this page and its Play link
+      try {
+        if (!localStorage.getItem("reflect:revealed") || /[?&]home\b/.test(location.search)) return;
+        if (document.referrer && new URL(document.referrer).host === location.host) return;
+        var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+        if (nav && nav.type !== "navigate") return;
+        if (playLive && /Android/.test(navigator.userAgent)) return;
+        location.replace("app/");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="home">
+  <main>
+    <section class="hero">
+      <svg class="logo-mark" role="img" aria-label="The Thinking Place logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 365 365"><g transform="translate(-40.284 -40.284) scale(1.2207) translate(0 0)"><path d="M193.627 44.2123C193.627 38.0672 188.645 33.0857 182.5 33.0857C176.355 33.0857 171.374 38.0672 171.374 44.2123V79.1817C171.374 85.3267 176.355 90.3083 182.5 90.3083C188.645 90.3083 193.627 85.3267 193.627 79.1817V44.2123Z" fill="var(--logo-accent)"/><path d="M261.28 68.3026C264.352 62.9808 262.529 56.1759 257.207 53.1033C251.885 50.0308 245.081 51.8542 242.008 57.176L224.523 87.4603C221.451 92.7821 223.274 99.587 228.596 102.66C233.918 105.732 240.723 103.909 243.795 98.5869L261.28 68.3026Z" fill="var(--fg)"/><path d="M307.824 122.992C313.146 119.92 314.969 113.115 311.897 107.793C308.824 102.471 302.019 100.648 296.698 103.72L266.413 121.205C261.091 124.277 259.268 131.082 262.341 136.404C265.413 141.726 272.218 143.549 277.54 140.477L307.824 122.992Z" fill="var(--fg)"/><path d="M320.788 193.627C326.933 193.627 331.915 188.645 331.915 182.5C331.915 176.355 326.933 171.374 320.788 171.374H285.819C279.674 171.374 274.692 176.355 274.692 182.5C274.692 188.645 279.674 193.627 285.819 193.627H320.788Z" fill="var(--fg)"/><path d="M296.697 261.28C302.019 264.352 308.824 262.529 311.896 257.207C314.969 251.885 313.145 245.081 307.824 242.008L277.539 224.523C272.217 221.451 265.413 223.274 262.34 228.596C259.267 233.918 261.091 240.723 266.413 243.795L296.697 261.28Z" fill="var(--fg)"/><path d="M242.007 307.824C245.08 313.146 251.885 314.969 257.206 311.897C262.528 308.824 264.352 302.019 261.279 296.698L243.794 266.413C240.722 261.091 233.917 259.268 228.595 262.341C223.273 265.413 221.45 272.218 224.522 277.54L242.007 307.824Z" fill="var(--fg)"/><path d="M171.373 320.788C171.373 326.933 176.355 331.915 182.5 331.915C188.645 331.915 193.626 326.933 193.626 320.788V285.819C193.626 279.674 188.645 274.692 182.5 274.692C176.355 274.692 171.373 279.674 171.373 285.819V320.788Z" fill="var(--fg)"/><path d="M103.72 296.697C100.648 302.019 102.471 308.824 107.793 311.896C113.115 314.969 119.92 313.145 122.992 307.824L140.477 277.539C143.549 272.217 141.726 265.413 136.404 262.34C131.083 259.267 124.278 261.091 121.205 266.413L103.72 296.697Z" fill="var(--fg)"/><path d="M57.1756 242.007C51.8538 245.08 50.0304 251.885 53.103 257.207C56.1755 262.528 62.9804 264.352 68.3022 261.279L98.5865 243.795C103.908 240.722 105.732 233.917 102.659 228.595C99.5866 223.274 92.7817 221.45 87.4599 224.523L57.1756 242.007Z" fill="var(--fg)"/><path d="M44.2123 171.373C38.0672 171.373 33.0857 176.355 33.0857 182.5C33.0857 188.645 38.0672 193.626 44.2123 193.626H79.1817C85.3267 193.626 90.3083 188.645 90.3083 182.5C90.3083 176.355 85.3267 171.373 79.1817 171.373H44.2123Z" fill="var(--fg)"/><path d="M68.3023 103.72C62.9806 100.648 56.1756 102.471 53.1031 107.793C50.0306 113.115 51.8539 119.919 57.1757 122.992L87.4601 140.477C92.7818 143.549 99.5868 141.726 102.659 136.404C105.732 131.082 103.908 124.277 98.5867 121.205L68.3023 103.72Z" fill="var(--fg)"/><path d="M122.992 57.1758C119.92 51.854 113.115 50.0307 107.793 53.1032C102.471 56.1757 100.648 62.9807 103.72 68.3024L121.205 98.5868C124.277 103.909 131.082 105.732 136.404 102.659C141.726 99.5869 143.549 92.7819 140.477 87.4602L122.992 57.1758Z" fill="var(--fg)"/><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="365" height="365"><rect width="365" height="365" fill="white"/><path d="M186.872 228.596C212.33 228.596 232.968 207.959 232.968 182.501C232.968 157.042 212.33 136.405 186.872 136.405C161.413 136.405 140.776 157.042 140.776 182.501C140.776 207.959 161.413 228.596 186.872 228.596Z" fill="black"/></mask><path d="M182.5 249.26C219.371 249.26 249.26 219.371 249.26 182.5C249.26 145.63 219.371 115.741 182.5 115.741C145.63 115.741 115.741 145.63 115.741 182.5C115.741 219.371 145.63 249.26 182.5 249.26Z" fill="var(--fg)" mask="url(#cut)"/><path d="M168.989 228.596C194.447 228.596 215.085 207.959 215.085 182.501C215.085 157.042 194.447 136.405 168.989 136.405C143.531 136.405 122.893 157.042 122.893 182.501C122.893 207.959 143.531 228.596 168.989 228.596Z" fill="var(--fg)"/></g></svg>
+      <p class="name">The Thinking Place</p>
+      <h1>Philosophy, one day at a time.</h1>
+    </section>
+
+    <!-- A thought from the app, one per weekday: written in by tools/make_site.py (Monday's),
+         then the script below shows the reader's own weekday. -->
+    <section class="today" id="today" aria-label="A thought from The Thinking Place">
+      <blockquote class="today-text" id="today-text">Of things some are in our power, and others are not.</blockquote>
+      <p class="today-source"><span id="today-source">Epictetus, Enchiridion 1</span><span class="dot" aria-hidden="true"> · </span><span class="today-path" id="today-path">Stoicism</span></p>
+      <p class="today-links">
+        <button type="button" class="today-link" aria-expanded="false" aria-controls="today-context">about this thought</button><span class="dot" aria-hidden="true">·</span><button type="button" class="today-link" aria-expanded="false" aria-controls="today-question">a question to sit with</button>
+      </p>
+      <p class="today-panel" id="today-context" hidden>Epictetus was a slave in Rome, later freed, who spent his life teaching philosophy. He wrote nothing himself: his teaching was written down by Arrian, including the short Manual, or Enchiridion, which opens with this line.
+
+Some things are in our power, and some are not. In our power, Epictetus says, are our opinions, impulses, desires and aversions: in a word, our own acts. Not in our power are our body, property, reputation and position. Everything else in his teaching follows from this sorting. We suffer when we treat what isn&#x27;t ours to control as if it were, and neglect what is. Freedom begins with knowing which is which.</p>
+      <p class="today-panel today-question" id="today-question" hidden>What are you carrying today that was never yours to control?</p>
+    </section>
+    <script type="application/json" id="week-thoughts">[{"path": "Stoicism", "text": "Of things some are in our power, and others are not.", "source": "Epictetus, Enchiridion 1", "prompt": "What are you carrying today that was never yours to control?", "context": "Epictetus was a slave in Rome, later freed, who spent his life teaching philosophy. He wrote nothing himself: his teaching was written down by Arrian, including the short Manual, or Enchiridion, which opens with this line.\n\nSome things are in our power, and some are not. In our power, Epictetus says, are our opinions, impulses, desires and aversions: in a word, our own acts. Not in our power are our body, property, reputation and position. Everything else in his teaching follows from this sorting. We suffer when we treat what isn't ours to control as if it were, and neglect what is. Freedom begins with knowing which is which."}, {"path": "Buddhist Philosophy", "text": "For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.", "source": "Dhammapada 5", "prompt": "Which resentment are you keeping alive by feeding it?", "context": "The Dhammapada, an early Buddhist collection of sayings, opens with a chapter of paired verses. Just before it, the text names the thoughts that keep hatred alive: “He abused me, he beat me, he defeated me, he robbed me”.\n\nHatred, it says, never ends through more hatred, only through love, and this is “an old rule”: not a new commandment, but a description of how things work. Answering hostility with hostility feeds it. Someone has to stop the cycle, and the verse suggests it can be us. This is not weakness. It takes more strength to drop a grievance than to repay it, and only that actually ends the fight."}, {"path": "Epicureanism", "text": "It is not the young man who is most happy, but the old man who has lived beautifully …", "source": "Epicurus, Vatican Sayings 17", "prompt": "What would it mean for you to grow old having lived beautifully?", "context": "Youth is often called the best time of life. One of the Vatican Sayings, short sayings of Epicurus and his followers, found in a medieval manuscript in the Vatican Library, disagrees.\n\nIt is not the young who are happiest, but the old who have lived well. The young, at their peak, are tossed about by fortune, it goes on, while the old have settled into age as into a harbour, secure in gratitude for good things they were once unsure of. Youth has energy and chances, but also confusion. A life well lived gives a calm that only the years can bring."}, {"path": "Confucianism", "text": "What you do not want done to yourself, do not do to others.", "source": "Confucius, Analects 15.23", "prompt": "Where today could you treat someone the way you would want to be treated?", "context": "Elsewhere in the Analects, the disciple Tsze-kung asks Confucius whether there is one word that can guide a whole life. Confucius answers: reciprocity.\n\nWhat you don't want done to yourself, don't do to others. It is one of the oldest forms of what is now called the golden rule, found in many traditions. Its power lies in its simplicity. We don't need complex theories to know how to treat people. We only need to imagine being in their place, and act accordingly."}, {"path": "Humanists and Essayists", "text": "What do we live for, if it is not to make life less difficult to each other?", "source": "George Eliot, Middlemarch, ch. 72", "prompt": "Whose life could you make a little less difficult?", "context": "In chapter 72 of George Eliot's Middlemarch, the doctor Lydgate is caught up in a scandal, and his friends keep their distance. Dorothea insists on helping him.\n\nWhat do we live for, she asks, if not to make life less difficult for each other? She can't be indifferent to the troubles of a man who helped her when she was ill. It is one of the simplest and best answers to the question of what life is for. Not success or fame, but easing each other's way. Eliot's novel shows how much small acts of loyalty can matter."}, {"path": "Indian Philosophy", "text": "We live in this world when we love it.", "source": "Rabindranath Tagore, Stray Birds 279", "prompt": "What part of your world have you stopped loving?", "context": "This is one of the last sayings in Rabindranath Tagore's Stray Birds (1916), a book of a few hundred short sayings. Just before it, Tagore asks the world to keep one phrase for him in its silence when he is dead: I have loved.\n\nWe live in this world when we love it. We can exist in the world without really living in it, passing through days without care or attention. Love, Tagore suggests, is what makes us present. It ties us to people, places and moments. The more we love, the more fully we are here."}, {"path": "Existential Thought", "text": "Those who suffer need nothing else in this world but people capable of giving them their attention.", "source": "Simone Weil, 'Reflections on the Right Use of School Studies' (1942)", "prompt": "When did someone's attention help you more than their words?", "context": "In her 1942 essay on schoolwork and attention, the French philosopher Simone Weil (1909–1943) argues that the attention we train in study is the same we need for loving our neighbour.\n\nThose who suffer, she says (our translation), need nothing else in this world but people able to give them their attention. Not advice, not solutions, not even sympathy first, but real attention. It is a simple and demanding idea. When someone is struggling, we often rush to fix things or reassure. Weil suggests something harder and more valuable: being fully present to them, as they are."}]</script>
+
+    <section class="welcome">
+      <p>A thought like this one, every day. The Thinking Place makes philosophy accessible: a short note gives each thought its context, and a question helps you think it through.</p>
+      <p>Read it in a minute, and give yourself the space to think: write down what comes to mind, or sit and wonder. Then get on with your day.</p>
+      <p class="muted small">Free. No ads, no tracking, no account. Your notes never leave your device.</p>
+      <p class="small"><a href="library/">Browse the Library</a>: the thinkers, their paths, their times, and the big questions behind each day's thought.</p>
+    </section>
+
+    <div class="pause" aria-hidden="true"></div>
+
+    <!-- One card per device. A small script below puts the reader's own device first. -->
+    <a class="more-below" id="more-below" href="#devices" aria-label="More below" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></a>
+
+    <div class="devices" id="devices">
+      <section class="device" data-device="desktop">
+        <div class="device-head"><svg class="device-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg><h2>Computer</h2><span class="yours">this device</span></div>
+        <p class="device-sum">Read it right here, in your browser. Nothing to install.</p>
+        <a class="cta" href="app/">Open The Thinking Place</a>
+        <p class="device-fine">No daily reminders in the browser. Notes stay in this browser: export them from Settings to keep a copy or move them.</p>
+      </section>
+
+      <div class="others" id="others">
+        <h2>Best on your phone</h2>
+        <p class="perks"><span>Read anywhere</span><span class="dot" aria-hidden="true">·</span><span>Your notes at hand</span><span class="dot" aria-hidden="true">·</span><span>Reminders in the Android app</span></p>
+      </div>
+
+      <section class="device" data-device="android">
+        <div class="device-head"><svg class="device-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><h2>Android</h2><span class="yours">this device</span></div>
+        <p class="device-sum">The app, with a daily reminder.</p>
+        <a class="cta cta-main" href="https://play.google.com/store/apps/details?id=app.thinkingplace">Get it on Google Play</a>
+        <span class="cta-note">Free, no ads, no account</span>
+        <details class="lead" id="android">
+          <summary>Or <a href="app/">read it in your browser</a>, and <span class="tap">keep it one tap away</span>.</summary>
+          <p class="guide-text">In Chrome, tap <b>Install</b> when it offers. Otherwise, open the menu (⋮) and tap <b>Add to Home screen</b>.</p>
+        </details>
+        <p class="device-fine">The browser version has no daily reminders. To move your notes to the app, export them from Settings, then import them there.</p>
+      </section>
+      <section class="device" data-device="ios">
+        <div class="device-head"><svg class="device-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><h2>iPhone</h2><span class="yours">this device</span></div>
+        <!-- Until the app is on the App Store: shown, not a link. Then it gets the Android card's
+             layout (a filled button and "Or read it in your browser"). -->
+        <div class="way soon"><b>Get it on the App Store <em>coming soon</em></b><span>Currently in review by Apple</span></div>
+        <!-- Once the app is on the App Store, "Until then" becomes "Or read it in Safari". -->
+        <p class="device-lead">Until then, read it in <span class="ios-browser">Safari</span> and <b>add it to your home screen</b>: it opens like an app, full screen, even offline. It also keeps your notes safe: in a normal browser tab, they may be erased if you don't visit for a week.</p>
+        <a class="cta" href="app/">Open The Thinking Place</a>
+        <details class="guide" id="iphone">
+          <summary>Add it to your home screen</summary>
+          <ol class="steps">
+            <li class="ios-share">Tap the Share button <svg class="share-icon" viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5v10h14V11h-1"/></svg> (in the ⋯ menu if you don't see it).</li>
+            <li>Tap <b>Add to Home Screen</b>, then <b>Add</b>.</li>
+          </ol>
+          <p class="device-fine">You'll see these steps again inside.</p>
+        </details>
+        <p class="device-fine">No daily reminders on iPhone for now. Your notes stay on your phone: export them from Settings to keep a copy or move them.</p>
+      </section>
+
+    </div>
+  </main>
+  <footer>
+    <a href="library/">Library</a><span class="dot" aria-hidden="true">·</span><a href="about.html">About</a><span class="dot" aria-hidden="true">·</span><a href="questions.html">Questions</a><span class="dot" aria-hidden="true">·</span><a href="terms.html">Terms &amp; privacy</a><span class="dot" aria-hidden="true">·</span><a href="mailto:hello@thinkingplace.app">Contact</a>
+  </footer>
+  <script>
+    // The reader's weekday picks one of the seven thoughts (Monday first).
+    (function () {
+      var week = JSON.parse(document.getElementById("week-thoughts").textContent);
+      var t = week[(new Date().getDay() + 6) % 7];
+      var box = document.getElementById("today-text");
+      var lines = t.text.indexOf("\n") >= 0 ? t.text.split("\n") : t.text.indexOf(" / ") >= 0 ? t.text.split(" / ") : null;
+      box.textContent = "";
+      if (lines) lines.forEach(function (l) { var s = document.createElement("span"); s.className = "verse-line"; s.textContent = l; box.appendChild(s); });
+      else box.textContent = t.text;
+      box.classList.toggle("verse", !!lines);
+      box.classList.toggle("long", !lines && t.text.length > 240);
+      document.getElementById("today-source").textContent = t.source;
+      document.getElementById("today-path").textContent = t.path;
+      document.getElementById("today-context").textContent = t.context;
+      document.getElementById("today-question").textContent = t.prompt;
+
+      // "about this thought" and "a question to sit with": one open at a time.
+      document.querySelectorAll(".today-link").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var open = b.getAttribute("aria-expanded") !== "true";
+          document.querySelectorAll(".today-link").forEach(function (o) {
+            o.setAttribute("aria-expanded", String(o === b && open));
+            document.getElementById(o.getAttribute("aria-controls")).hidden = !(o === b && open);
+          });
+        });
+      });
+
+      // A soft chevron while the cards are still below the first screen.
+      var more = document.getElementById("more-below");
+      function moreBelow() {
+        var first = document.querySelector("#devices > .device");
+        var hide = !first || first.getBoundingClientRect().top < innerHeight - 40 || scrollY > 40;
+        more.hidden = hide;
+      }
+      addEventListener("scroll", moreBelow, { passive: true });
+      addEventListener("resize", moreBelow);
+      moreBelow();
+    })();
+  </script>
+  <script>
+    // Puts the reader's own device first and words the iPhone steps for its browser. The check is the browser's own
+    // description of itself, done here on the page: nothing is sent anywhere.
+    (function () {
+      var ua = navigator.userAgent, q = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).get("device");
+      var ios = q ? q === "ios" : /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+      var android = q ? q === "android" : /Android/.test(ua);
+      var mine = ios ? "ios" : android ? "android" : "desktop";
+      var order = ios ? ["ios", "desktop", "android"] : android ? ["android", "desktop", "ios"] : ["desktop", "android", "ios"];
+      var box = document.getElementById("devices"), others = document.getElementById("others");
+      order.forEach(function (d, i) {
+        box.appendChild(box.querySelector('[data-device="' + d + '"]'));
+        if (i === 0) box.appendChild(others);  // the heading for the other devices
+      });
+      box.querySelector('[data-device="' + mine + '"]').classList.add("mine");
+      if (mine !== "desktop") others.innerHTML = "<h2>Other devices</h2>";
+      var share = document.querySelector(".ios-share"), icon = share.querySelector("svg").outerHTML;
+      if (/CriOS|FxiOS|EdgiOS/.test(ua)) document.querySelector(".ios-browser").textContent = "your browser";
+      if (/CriOS/.test(ua)) share.innerHTML = "Tap the Share button " + icon + " in the address bar.";
+      else if (/FxiOS/.test(ua)) share.innerHTML = "Open the menu and tap <b>Share</b>.";
+      if (location.hash === "#iphone" || location.hash === "#android") document.querySelector(location.hash).open = true;
+    })();
+  </script>
+</body>
+</html>
